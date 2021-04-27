@@ -43,7 +43,7 @@ pub fn cocktail_sort<T>(slice: &mut [T])
         
         // end to start
         for i in (start..end-1).rev() {
-            if slice[i] > slice[i+1] {
+           if slice[i] > slice[i+1] {
                 slice.swap(i, i+1);
                 swapped = true;
             }
@@ -57,21 +57,13 @@ pub fn cocktail_sort<T>(slice: &mut [T])
 #[cfg(test)]
 mod test {
     use super::*;
-    use rand::prelude::*;
     use crate::test_utils::test_sort;
 
     #[test]
     fn test_cocktail() {
-        test_sort(cocktail_sort, 10);
+        test_sort(Box::new(cocktail_sort), 10);
     }
 }
-
-
-
-
-
-
-
 
 
 
