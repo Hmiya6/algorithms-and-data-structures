@@ -1,5 +1,5 @@
 [package]
-name = "sorts"
+name = "algorithms-and-data-structures"
 version = "0.1.0"
 authors = ["Hmiya6 <h.miya.work@gmail.com>"]
 edition = "2018"
