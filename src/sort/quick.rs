@@ -39,7 +39,7 @@ fn partition<T>(src: &mut [T]) -> usize
 #[cfg(test)]
 mod test {
     use super::*;
-    use crate::test_utils::test_sort;
+    use crate::sort::test_utils::test_sort;
 
     #[test]
     fn test_quick() {

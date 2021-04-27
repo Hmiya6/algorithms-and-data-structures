@@ -23,24 +23,10 @@ pub fn bubble_sort<T: PartialOrd + Copy + Display + Debug>(slice: &mut [T]) {
 #[cfg(test)]
 mod test {
     use super::*;
-    use rand;
+    use crate::sort::test_utils::test_sort;
 
     #[test]
     fn test_bubble() {
-        let mut slice = [1, 4, 3, 2, 1];
-        bubble_assert(&mut slice, &[1, 1, 2, 3, 4]);
-
-        let mut num = [0];
-        bubble_assert(&mut num, &[0]);
-
-        let mut random = rand::random::<[i32; 10]>();
-        let mut sorted = random.clone();
-        sorted.sort();
-        bubble_assert(&mut random, &sorted);
-    }
-
-    fn bubble_assert<T: PartialOrd + Copy + Display + Debug>(slice: &mut [T], expected: &[T]) {
-        bubble_sort(slice);
-        assert_eq!(slice, expected);
+        test_sort(Box::new(bubble_sort), 10);
     }
 }

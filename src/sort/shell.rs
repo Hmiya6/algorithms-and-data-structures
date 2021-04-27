@@ -35,7 +35,7 @@ pub fn shell_sort<T>(src: &mut [T])
 #[cfg(test)]
 mod test {
     use super::*;
-    use crate::test_utils::test_sort;
+    use crate::sort::test_utils::test_sort;
 
     #[test]
     fn test_shell() {
