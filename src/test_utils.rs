@@ -9,6 +9,10 @@ pub fn test_sort(f: Box<dyn Fn(&mut [i32])>, times: usize) {
         sorted.sort();
         assert_eq!(src, sorted);
     }
-
+    
+    // corner case: src.len() == 1
+    let mut src = [0];
+    f(&mut src);
+    assert_eq!(&src, &[0]);
 }
 
