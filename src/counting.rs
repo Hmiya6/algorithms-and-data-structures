@@ -20,9 +20,15 @@
 // ```
 pub fn counting_sort(src: &mut [usize]) {
 
+    let &max = match src.iter().max() {
+        Some(v) => v,
+        None => {return;},
+    };
+    /*
     let &max = src.iter().reduce(|a, b| {
         if a >= b {a} else {b}
     }).unwrap();
+    */
 
     let mut counter = vec![0 as usize; max+1];
     for &data in src.iter() {
@@ -41,6 +47,7 @@ pub fn counting_sort(src: &mut [usize]) {
 
 // all int allowed
 pub fn counting_sort_2(src: &mut [isize]) {
+    /*
     let max = *src.iter().reduce(|a, b| {
         if a >= b {a} else {b}
     }).unwrap();
@@ -48,7 +55,13 @@ pub fn counting_sort_2(src: &mut [isize]) {
     let min = *src.iter().reduce(|a, b| {
         if a > b {b} else {a}
     }).unwrap();
-
+    */
+    
+    let &max = match src.iter().max() {
+        Some(v) => v,
+        None => {return;},
+    };
+    let &min = src.iter().min().unwrap();
     let diff = max - min;
 
     let mut counter = vec![0 as usize; diff.abs() as usize + 1];
@@ -88,6 +101,10 @@ mod test {
         let mut src = [0];
         counting_sort(&mut src);
         assert_eq!(&src, &[0]);
+        
+        let mut src = [];
+        counting_sort(&mut src);
+        assert_eq!(&src, &[]);
     }
 
     #[test]
@@ -106,6 +123,10 @@ mod test {
         let mut src = [0];
         counting_sort(&mut src);
         assert_eq!(&src, &[0]);
+
+        let mut src = [];
+        counting_sort(&mut src);
+        assert_eq!(&src, &[]);
     }
 }
 

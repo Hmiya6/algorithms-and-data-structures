@@ -14,5 +14,10 @@ pub fn test_sort(f: Box<dyn Fn(&mut [i32])>, times: usize) {
     let mut src = [0];
     f(&mut src);
     assert_eq!(&src, &[0]);
+    
+    // corner case: src.len() == 0
+    let mut src = [];
+    f(&mut src);
+    assert_eq!(&src, &[]);
 }
 
