@@ -6,6 +6,7 @@ pub mod gnome;
 pub mod insertion;
 pub mod shell;
 pub mod counting;
+pub mod radix;
 
 pub mod test_utils;
 
