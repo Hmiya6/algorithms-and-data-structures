@@ -7,6 +7,7 @@ pub mod insertion;
 pub mod shell;
 pub mod counting;
 pub mod radix;
+pub mod quick;
 
 pub mod test_utils;
 
