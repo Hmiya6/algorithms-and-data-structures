@@ -1,56 +1,104 @@
 use std::cmp::Ordering;
 
-type Link<T> = Option<Box<BSTNode<T>>>;
+type Link<T> = Option<Box<Node<T>>>;
 
-pub struct BSTNode<T>
+
+
+// TODO: Add `remove` method
+pub struct Node<T>
     where T: Ord
 {
-    val: T,
+    val: Option<T>,
     left: Link<T>,
     right: Link<T>,
 }
 
-impl<T> BSTNode<T>
+impl<T> Node<T>
     where T: Ord
 {
     pub fn new(val: T) -> Self {
         Self {
-            val,
+            val: Some(val),
             left: None,
             right: None,
         }
     }
 
     pub fn search(&self, val: &T) -> bool {
-        match &self.val.cmp(val) {
-            Ordering::Less => {
-                match &self.left {
-                    Some(left) => left.search(val),
-                    None => false,
+        match &self.val {
+            Some(v) => match v.cmp(val) {
+                Ordering::Less => {
+                    match &self.left {
+                        Some(left) => left.search(val),
+                        None => false,
+                    }
+                }
+                Ordering::Equal => {
+                    true
+                }
+                Ordering::Greater => {
+                    match &self.right {
+                        Some(right) => right.search(val),
+                        None => false,
+                    }
                 }
             }
-            Ordering::Equal => {
-                true
-            }
-            Ordering::Greater => {
-                match &self.right {
-                    Some(right) => right.search(val),
-                    None => false,
-                }
-            }
+            None => false,
         }
     }
 
     pub fn insert(&mut self, val: T) {
-        if self.val < val {
-            match &mut self.left {
-                Some(left) => left.insert(val),
-                None => self.left = Some(Box::new(BSTNode::new(val))),
+        match &self.val {
+            Some(v) => {
+                if v < &val {
+                    match &mut self.left {
+                        Some(left) => left.insert(val),
+                        None => self.left = Some(Box::new(Node::new(val))),
+                    }
+                } else {
+                    match &mut self.right {
+                        Some(right) => right.insert(val),
+                        None => self.right = Some(Box::new(Node::new(val))),
+                    }
+                }
             }
+            None => self.val = Some(val),
+        }
+    }
+}
+
+pub struct BinarySearchTree<T>
+    where T: Ord
+{
+    root: Option<Node<T>>,
+}
+
+impl<T> BinarySearchTree<T>
+    where T: Ord
+{
+    
+    pub fn new() -> Self {
+        Self {
+            root: None,
+        }
+    }
+
+    pub fn search(&self, val: &T) -> bool {
+        if let Some(root) = &self.root {
+            root.search(val)
         } else {
-            match &mut self.right {
-                Some(right) => right.insert(val),
-                None => self.right = Some(Box::new(BSTNode::new(val))),
+            false
+        }
+    }
+
+    pub fn insert(&mut self, val: T) {
+        match &mut self.root {
+            Some(root) => {
+                root.insert(val);
+            }
+            None => {
+                let node = Node::new(val);
+                self.root = Some(node);
             }
         }
     }
@@ -78,12 +126,12 @@ mod test {
         assert!(!bst.search(&thread_rng().gen::<i64>()));
     }
 
-    fn i64_bst() -> (BSTNode<i64>, Vec<i64>) {
+    fn i64_bst() -> (Node<i64>, Vec<i64>) {
         let mut test_cases = Vec::new();
 
         let i: i64 = thread_rng().gen();
         test_cases.push(i);
-        let mut root = BSTNode::new(i);
+        let mut root = Node::new(i);
         
         for _ in 0..64 {
             let i: i64 = thread_rng().gen();
@@ -94,12 +142,12 @@ mod test {
         (root, test_cases)
     }
 
-    fn string_bst() -> (BSTNode<String>, Vec<String>) {
+    fn string_bst() -> (Node<String>, Vec<String>) {
         let mut test_cases = Vec::new();
 
         let s = rand_str();
         test_cases.push(s.clone());
-        let mut root = BSTNode::new(s);
+        let mut root = Node::new(s);
 
         for _ in 0..20 {
             let s = rand_str();
